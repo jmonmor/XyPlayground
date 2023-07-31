@@ -79,7 +79,15 @@ jobs:
       uses: xygeni/xygeni-action@4e94e5ea737f5ebfedac8b1a5b75d8c60c21932d
       id: Xygeni-Scanner
       with:
-        command: scan --send-to=github --never-fail -e '**/test/**,**/target/**,**/docs/node_modules/**,**/doc/**'
+        command: scan --send-to=github --never-fail -e '**/test/**,**/target/**,**/docs/node_modules/**,**/doc/**' -f sarif
         token: ${{ secrets.XYGENI_TOKEN }}
         gh_token: ${{ secrets.GH_PAT_FOR_DOGFOODING }}
         xygeni_url: https://apidev.xygeni.io/deps-doctor-service
+    - name: Upload SARIF file
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+          # Path to SARIF file relative to the root of the repository
+        sarif_file: results.sarif
+          # Optional category for the results
+          # Used to differentiate multiple results for one commit
+        category: my-analysis-tool

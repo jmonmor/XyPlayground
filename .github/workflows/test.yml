@@ -80,6 +80,6 @@ jobs:
       id: Xygeni-Scanner
       with:
         command: scan --never-fail -e '**/test/**,**/target/**,**/docs/node_modules/**,**/doc/**'
-        token: ${{ secrets.XYGENI_TOKEN_LABDEV }}
+        token: ${{ secrets.XYGENI_TOKEN }}
         gh_token: ${{ secrets.GH_PAT_FOR_DOGFOODING }}
         xygeni_url: https://apidev.xygeni.io/deps-doctor-service

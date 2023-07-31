@@ -1,3 +1,5 @@
+name: "Xygeni Action Test"
+
 on:
   workflow_dispatch:
   push:

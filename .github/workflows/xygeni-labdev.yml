@@ -1,9 +1,17 @@
 name: Xygeni Scan
 on:
   workflow_dispatch:  # Allows manual triggering
-  # no push triggers
-  # no pull request triggers
-  # no schedule triggers
+  # push triggers
+  push:
+    branches:
+    - master
+    
+# pull request triggers
+  pull_request:
+    branches:
+    - master
+    
+# No schedule triggers
 
 jobs:
   xygeni-scan:

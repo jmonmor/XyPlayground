@@ -34,80 +34,40 @@ or
 gh repo clone xygeni/xygeni-goat
 ----
 
-=== Get bearer token
+=== Install the Xygeni scanner
 
-First you will need a bearer (API) token from your Xygeni subscription. Please follow the instructions in link:https://docs.xygeni.io/administration/administration.html#_generate_token_for_scanner[Generate Token for Scanner].
+Download the scanner zipfile from https://get.xygeni.io/latest/scanner/xygeni_scanner.zip and unzip it, e.g. in your `$HOME` directory (it will create a `xygeni_scanner` directory).
 
-We assume that you set a `TOKEN` environment variable with the token.
+You may check it against the https://raw.githubusercontent.com/xygeni/xygeni/main/checksum/latest/xygeni-release.zip.sha256[SHA-256 checksum].
 
-NOTE: We do recommend to use API (bearer) token instead of the (now deprecated) username/password for using Xygeni scanner, although the installation script supports both.
+You need a personal or organizational https://in.xygeni.io/dashboard/configuration-panel/profile[Xygeni API token]. Set the `XYGENI_TOKEN` environment variable with the token (`export XYGENI_TOKEN=...` in Linux/macOS, or `set XYGENI_TOKEN ...` plus `setx XYGENI_TOKEN ...` in Windows).
 
+TIP: You may also set an alias to the xygeni script.
 
-=== Install Xygeni scanner
+For full details, read https://docs.xygeni.io/getting-started/quick-start-with-xygeni-cli[Quick start with Xygeni CLI].
 
-If you choose to use the Xygeni scanner Docker image, go to next step.
+=== Run the scanner on xygeni-goat
 
-Download the installation script and run it:
+Run the `scan` command over the contents in the `xygeni-goat/source` directory, or any subdirectory beneath for a partial analysis.
 
-Under Linux / macOS (bash):
-
+Under Linux / macOS:
 [source,shell]
 ----
-# Download the install script
-curl -sLO https://get.xygeni.io/latest/scanner/install.sh
-
-# Check the scanner checksum published in xygeni GitHub repository (a separate environment from cloud),
-# or better review the install script yourself ;)
-echo "$(curl -s https://raw.githubusercontent.com/xygeni/xygeni/main/checksum/latest/install.sh.sha256) install.sh" | sha256sum --check
-# Under macOS, use shasum -a 256 --check instead if sha256sum is not installed
-
-# Run the install script, creating the scanner in your chosen directory
-$ ./install.sh -o -t $TOKEN --dir $HOME/my-custom-scanner-dir
+cd xygeni-goat/source
+"$HOME/xygeni_scanner/xygeni" scan
 ----
 
-Under Windows (PowerShell):
+Under Windows (Powershell):
 
 [source,powershell]
 ----
-# Download the install script (via Invoke-WebRequest)
-iwr https://get.xygeni.io/latest/scanner/install.ps1 -useb -OutFile install.ps1
-
-# Check the scanner checksum published in xygeni GitHub repo,
-# or better review the install script yourself ;)
-(Get-FileHash '.\install.ps1' -Algorithm SHA256).Hash -eq `
-  (iwr https://raw.githubusercontent.com/xygeni/xygeni/main/checksum/latest/install.ps1.sha256)
-
-# Run the install script, creating the scanner in your chosen directory
-.\install.ps1 -o -verbose -t "$Env:XYGENI_TOKEN" -dir ~\my-custom-scanner-dir
+cd xygeni-goat/source
+"$HOME\xygeni_scanner\xygeni.ps1" scan
 ----
 
-TIP: You may add a shortcut (using an alias, creating a link to the )
+Open the referenced link to see the findings in the Xygeni dashboard !
 
-See https://docs.xygeni.io/scanner/install_script.html[Xygeni Scanner Install] for full details.
-
-=== Run the scanner
-
-Run the `scan` command over the contents in the `vulnerable` directory, or any subdirectory beneath for a partial analysis.
-[source,shell]
-----
-cd $HOME/my-custom-scanner-dir
-xygeni scan -n <your_project_name> --dir <path_to_analyze> --no-upload
-----
-
-Under Windows (Powershell)
-
-[source,powershell]
-----
-cd ~\my-custom-scanner-dir
-xygeni.cmd scan -n <your_project_name> --dir <path_to_analyze> --no-upload
-----
-
-Or, if you prefer to run the https://docs.xygeni.io/integrations/docker/docker.html[Xygeni scanner Docker image]:
-
-[source,shell]
-----
-docker compose run xygeni scan -n project_to_scan_name --dir /app --no-upload
-----
+To use other scan commands, follow the instructions in the https://docs.xygeni.io/xygeni-scanner-cli/xygeni-cli-overview[Xygeni CLI Overview].
 
 == Contributing
 
